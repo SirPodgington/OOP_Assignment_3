@@ -14,6 +14,38 @@ float ui_CentreX, ui_CentreY;
 PImage img;
 float x,y;
 
+
+
+/*************************************************************************************************************
+*        MOUSE LOCATION        *
+*******************************/
+
+boolean mouse_OnScreen;
+boolean mouse_OnUI;
+
+void check_MouseLocation()
+{
+   if (mouseX > screen_LeftBorder && mouseX < screen_RightBorder)
+   {
+      // Check if mouse is over the game screen
+      if (mouseY > screen_TopBorder && mouseY < screen_BottomBorder)
+         mouse_OnScreen = true;
+      else
+         mouse_OnScreen = false;
+      
+      // Check if mouse is over the User Interface
+      if (mouseY > ui_TopBorder && mouseY < ui_BottomBorder)
+         mouse_OnUI = true;
+      else
+         mouse_OnUI = false;
+   }
+}
+
+
+/*************************************************************************************************************
+*        SETUP        *
+**********************/
+
 void setup()
 {
    size(800,600);  
@@ -43,14 +75,21 @@ void setup()
    ui_CentreX = ui_LeftBorder + ui_HalfWidth;
    ui_CentreY = ui_TopBorder + ui_HalfHeight;
 }
-  
+
+
+/*************************************************************************************************************
+*        DRAW        *
+**********************/
+
 void draw()
 {
+   check_MouseLocation();
+
    x = constrain(mouseX, 0, img.width - screen_Width);    
    y = constrain(mouseY, 0, img.height - screen_Height); 
    image(img, -x, -y);  
    
-   // Screen & UI property testing
+   // Screen & UI property testing -----------------------
    textAlign(CENTER,CENTER);
    textSize(30);
    text("GAME SCREEN", screen_CentreX, screen_CentreY);
@@ -59,4 +98,5 @@ void draw()
    rect(ui_LeftBorder, ui_TopBorder, ui_Width, ui_Height);
    fill(0);
    text("USER INTERFACE", ui_CentreX, ui_CentreY);
+   // To Be Removed later --------------------------------
 }
